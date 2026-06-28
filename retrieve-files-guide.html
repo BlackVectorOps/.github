@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting Kyle's Files — Step by Step</title>
+<style>
+  :root { --ink:#1a1a1a; --soft:#444; --line:#d9d9d9; --accent:#1d6fb8; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 21px; line-height: 1.7; color: var(--ink);
+    background: #fbfbf9; margin: 0; padding: 0 0 80px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 22px; }
+  header.top { background:#fff; border-bottom:3px solid var(--accent); padding:26px 0 18px; }
+  h1 { font-size: 30px; margin: 0 0 6px; }
+  .sub { color: var(--soft); font-size: 19px; }
+
+  .callme {
+    background:#eaf3fb; border:2px solid var(--accent); border-radius:10px;
+    padding:16px 18px; margin:22px 0; font-size:22px;
+  }
+  .callme strong { font-size:24px; }
+
+  /* progress */
+  .progress-track { position:sticky; top:0; height:8px; background:#e7e7e2; z-index:5; }
+  .progress { height:100%; width:0; background:var(--accent); transition:width .15s; }
+
+  .step {
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:22px 24px 24px; margin:22px 0; box-shadow:0 1px 3px rgba(0,0,0,.05);
+  }
+  .step-number {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:46px; height:46px; border-radius:50%;
+    background:var(--accent); color:#fff; font-size:24px; font-weight:bold;
+    font-family:Arial, sans-serif; margin-bottom:8px;
+  }
+  h2 { font-size:25px; margin:6px 0 12px; }
+
+  .instruction-box, .warning-box, .expected-output, .success-box, .stop-box {
+    border-radius:9px; padding:14px 16px; margin:14px 0;
+  }
+  .instruction-box { background:#f4f7f4; border:1px solid #cfddcf; }
+  .warning-box { background:#fff7e6; border:1px solid #ecc878; }
+  .stop-box { background:#fdecec; border:2px solid #d9534f; font-size:22px; }
+  .expected-output { background:#f1f1ee; border:1px solid var(--line); font-family:Consolas,monospace; font-size:18px; }
+  .success-box { background:#e8f6ec; border:2px solid #4caf50; font-size:22px; }
+  ol, ul { margin:10px 0 0 22px; }
+  li { margin:7px 0; }
+
+  .command-block {
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    background:#1e1e1e; color:#f5f5f5; border-radius:9px;
+    padding:14px 16px; margin:14px 0; font-family:Consolas,monospace; font-size:19px;
+    word-break:break-all;
+  }
+  .command-block span { flex:1 1 auto; }
+  .copy-button {
+    flex:0 0 auto; background:var(--accent); color:#fff; border:none;
+    border-radius:7px; padding:10px 16px; font-size:17px; cursor:pointer;
+    font-family:Arial, sans-serif;
+  }
+  .copy-button.copied { background:#4caf50; }
+  code { background:#eee; padding:2px 6px; border-radius:4px; font-size:18px; word-break:break-all; }
+  kbd {
+    background:#fff; border:1px solid #aaa; border-bottom-width:2px; border-radius:5px;
+    padding:1px 7px; font-family:Arial, sans-serif; font-size:17px;
+  }
+  .footer { text-align:center; color:var(--soft); font-size:19px; margin-top:30px; }
+
+  /* This banner is ONLY for Kyle — delete it before sending the page. */
+  .for-kyle {
+    background:#2b2b2b; color:#ffe; border:3px dashed #ffb700;
+    border-radius:10px; padding:18px 20px; margin:22px 0; font-family:Arial, sans-serif; font-size:17px; line-height:1.6;
+  }
+  .for-kyle h2 { color:#ffd54a; font-size:20px; margin-top:0; }
+  .for-kyle code { background:#444; color:#fff; }
+</style>
+</head>
+<body>
+
+<div class="progress-track"><div class="progress" id="progressBar"></div></div>
+
+<header class="top">
+  <div class="wrap">
+    <h1>Getting the Files to Kyle</h1>
+    <div class="sub">A simple, step-by-step guide. Take your time — there is no rush.</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ============================================================= -->
+  <!-- FOR KYLE ONLY. Read this, fill in the blanks, then DELETE      -->
+  <!-- this whole box (and decide A vs B below) before sending.       -->
+  <!-- ============================================================= -->
+  <div class="for-kyle">
+    <h2>⚠ Kyle — read &amp; remove this box before you send the page</h2>
+    <p>Fill these in, then delete this box:</p>
+    <ol>
+      <li><strong>Your phone number</strong> — replace every <code>[YOUR PHONE]</code>.</li>
+      <li><strong>Boot menu:</strong> confirm the machine shows the GRUB menu on restart and that the Linux entry is literally called <code>Ubuntu</code> (Step&nbsp;2). If it boots straight to Windows with no menu, tell me — he'll need to hold a key, and I'll adjust.</li>
+      <li><strong>Passwords:</strong> confirm which prompts actually appear — the <em>disk-unlock (LUKS)</em> screen at boot, the <em>login</em> screen, or both. The guide currently assumes both. Trim Step&nbsp;3 or 4 if one doesn't apply. You read these to him live on the phone; they are <em>not</em> written on the page.</li>
+      <li><strong>Exact source folder:</strong> replace <code>[EXACT FOLDER PATH]</code> with the real path, e.g. <code>/home/kyle/Documents/KAL-XFS-disclosure</code>. One known path — no searching.</li>
+      <li><strong>Pick ONE transfer method and DELETE the other:</strong> <strong>Option A (Magic Wormhole)</strong> is far easier on him — one command, he reads you a short code, done; no reboot, no size limit, end-to-end encrypted. Use it if <code>which wormhole</code> shows it's installed. Otherwise use <strong>Option B (USB stick)</strong>.</li>
+      <li>If your files are <em>not</em> already encrypted at rest and you care, have Step&nbsp;5 zip them with a password first — tell me and I'll add it.</li>
+    </ol>
+  </div>
+
+  <div class="callme">
+    📞 <strong>Call Kyle any time:</strong> [YOUR PHONE]<br>
+    If anything looks different from this page, or you're unsure, <strong>stop and call</strong>. Nothing here can break the computer.
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step">
+    <div class="step-number">1</div>
+    <h2>Restart the computer</h2>
+    <p>Right now the computer is in Windows — the way you normally use it. We need to start it up in the other system, called <strong>Linux (Ubuntu)</strong>, where Kyle's files live.</p>
+    <div class="instruction-box">
+      <strong>Do this:</strong>
+      <ol>
+        <li>Close anything you have open.</li>
+        <li>Click the <strong>Start</strong> menu, then the <strong>power</strong> icon, then <strong>Restart</strong>.</li>
+        <li>Watch the screen as it comes back on.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step">
+    <div class="step-number">2</div>
+    <h2>Choose "Ubuntu" from the menu</h2>
+    <p>As the computer restarts, a <strong>dark screen with a short list</strong> will appear for a few seconds. This is the start-up menu.</p>
+    <div class="instruction-box">
+      <strong>Do this quickly (the list waits only a few seconds):</strong>
+      <ol>
+        <li>Use the <kbd>↓</kbd> arrow key to highlight the line that says <strong>Ubuntu</strong>.</li>
+        <li>Press <kbd>Enter</kbd>.</li>
+      </ol>
+    </div>
+    <div class="warning-box">
+      If the menu disappears before you choose and it goes back into Windows, that's okay — just go back to Step&nbsp;1 and restart again. No harm done.
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step">
+    <div class="step-number">3</div>
+    <h2>Unlock the disk (Kyle reads you this password)</h2>
+    <p>A screen will ask for a password to <strong>unlock</strong> the disk. This happens early, on a mostly-blank screen.</p>
+    <div class="warning-box">
+      <strong>Important:</strong> When you type this password, <strong>nothing will appear on screen</strong> — no dots, no stars. That is normal and correct. Type it slowly and carefully, then press <kbd>Enter</kbd>.
+    </div>
+    <p>Kyle will read you the password over the phone. It is not written on this page, for safety.</p>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step">
+    <div class="step-number">4</div>
+    <h2>Log in (Kyle reads you this password too)</h2>
+    <p>Next you'll reach a normal-looking <strong>login screen</strong> with Kyle's name.</p>
+    <div class="instruction-box">
+      <strong>Do this:</strong>
+      <ol>
+        <li>Click Kyle's name if it isn't already selected.</li>
+        <li>Type the login password Kyle reads you. <em>Here you'll see dots</em> as you type — that's fine.</li>
+        <li>Press <kbd>Enter</kbd>. You're now in Linux.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step">
+    <div class="step-number">5</div>
+    <h2>Open the Terminal</h2>
+    <p>The Terminal is a window where you type a command.</p>
+    <div class="instruction-box">
+      <strong>Do this:</strong>
+      <ol>
+        <li>Hold <kbd>Ctrl</kbd> and <kbd>Alt</kbd> together, then tap the <kbd>T</kbd> key.</li>
+        <li>A dark window opens with text ending in <code>$</code>. That's the Terminal.</li>
+      </ol>
+      <p style="margin-top:8px;">If that doesn't work: click <strong>Activities</strong> (top-left), type <code>terminal</code>, and click the Terminal icon.</p>
+    </div>
+  </div>
+
+  <!-- =============================================================== -->
+  <!-- OPTION A — MAGIC WORMHOLE (recommended). DELETE if using USB.    -->
+  <!-- =============================================================== -->
+
+  <!-- STEP 6 (Option A) -->
+  <div class="step">
+    <div class="step-number">6</div>
+    <h2>Send the files to Kyle</h2>
+    <p>Click <strong>Copy</strong>, then paste into the Terminal with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>, and press <kbd>Enter</kbd>.</p>
+    <div class="command-block">
+      <span>wormhole send "[EXACT FOLDER PATH]"</span>
+      <button class="copy-button" onclick="copyCmd(this, 'wormhole send &quot;[EXACT FOLDER PATH]&quot;')">Copy</button>
+    </div>
+    <div class="expected-output">
+      After a moment it will print a line like:<br>
+      <strong>Wormhole code is: 7-crossover-clockwork</strong>
+    </div>
+    <div class="stop-box">
+      📞 <strong>Read that code out loud to Kyle</strong> exactly as shown (numbers and both words). He types it on his end and the files come straight to him. Keep this window open until he says he has them.
+    </div>
+  </div>
+
+  <!-- STEP 7 (Option A) -->
+  <div class="step">
+    <div class="step-number">7</div>
+    <h2>Wait for Kyle to confirm</h2>
+    <p>When Kyle says the transfer finished, you'll see the <code>$</code> prompt again. That means it worked.</p>
+    <div class="success-box">
+      <strong>That's it — you're done!</strong> Thank you. You can leave the computer in Linux, or restart it and pick Windows (or just leave it) — whatever Kyle tells you.
+    </div>
+  </div>
+
+  <!-- =============================================================== -->
+  <!-- OPTION B — USB STICK (fallback). DELETE if using Wormhole.       -->
+  <!-- Uses the Files app, not terminal mount paths, so nothing to      -->
+  <!-- guess about where the Windows partition is mounted.              -->
+  <!-- =============================================================== -->
+  <!--
+  <div class="step">
+    <div class="step-number">6</div>
+    <h2>Copy the files onto a USB stick</h2>
+    <p>You can skip the Terminal for this method.</p>
+    <div class="instruction-box">
+      <strong>Do this:</strong>
+      <ol>
+        <li>Plug a USB stick into the computer. Wait a few seconds.</li>
+        <li>Open the <strong>Files</strong> app (the filing-cabinet icon on the left bar).</li>
+        <li>In the left column, find the folder <code>[EXACT FOLDER PATH]</code> (Kyle will tell you where to click).</li>
+        <li>Click that folder once to select it, hold <kbd>Ctrl</kbd> and tap <kbd>C</kbd> to copy.</li>
+        <li>In the left column click the <strong>USB stick's name</strong>, then hold <kbd>Ctrl</kbd> and tap <kbd>V</kbd> to paste.</li>
+        <li>Wait for the copy bar to finish.</li>
+        <li>Right-click the USB stick's name and choose <strong>Eject</strong> / <strong>Safely Remove</strong>. Then unplug it.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-number">7</div>
+    <h2>Restart back into Windows</h2>
+    <div class="instruction-box">
+      <ol>
+        <li>Click the top-right corner, then the power icon, then <strong>Restart</strong>.</li>
+        <li>This time, at the dark menu, just wait (or pick <strong>Windows</strong>). It will return to the normal Windows desktop.</li>
+        <li>Plug the USB stick back in.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-number">8</div>
+    <h2>Send the files to Kyle from Windows</h2>
+    <div class="instruction-box">
+      <strong>Do this:</strong>
+      <ol>
+        <li>Open your email (or the upload page Kyle gives you).</li>
+        <li>Start a new message to the address Kyle gives you.</li>
+        <li>Open the USB stick, select the folder, and attach or drag it in.</li>
+        <li>If email says the files are too big, call Kyle — he'll give you a simple upload link instead.</li>
+        <li>Send it, then call Kyle to confirm it arrived.</li>
+      </ol>
+    </div>
+    <div class="success-box"><strong>That's it — you're done!</strong> Thank you.</div>
+  </div>
+  -->
+
+  <!-- HELP -->
+  <div class="step">
+    <div class="step-number">?</div>
+    <h2>If something looks wrong</h2>
+    <ul>
+      <li>Read whatever is on the screen out loud to Kyle — including any error message, word for word.</li>
+      <li>Don't worry about mistakes. Nothing you type here can damage the computer or the files.</li>
+      <li>If you feel stuck or tired, stop and call Kyle. He'll walk you through it.</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    Follow the steps in order. Take your time. When in doubt, call Kyle: [YOUR PHONE]
+  </div>
+</div>
+
+<script>
+  function copyCmd(button, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const original = button.textContent;
+      button.textContent = 'Copied!';
+      button.classList.add('copied');
+      setTimeout(() => { button.textContent = original; button.classList.remove('copied'); }, 2000);
+    });
+  }
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    document.getElementById('progressBar').style.width = ((window.scrollY / h) * 100) + '%';
+  });
+</script>
+</body>
+</html>
